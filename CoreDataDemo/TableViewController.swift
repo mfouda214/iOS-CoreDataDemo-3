@@ -16,6 +16,8 @@ class TableViewController: UITableViewController {
     let ages = [25, 26, 20, 30, 27, 28, 23]
     var people = [Person]()
     
+    
+    // MARK: - Initializing the NSFetchedResultsController
     var fetchedResultsController: NSFetchedResultsController<Person>?
 
     @IBAction func addButtonWasTapped(_ sender: UIBarButtonItem) {
