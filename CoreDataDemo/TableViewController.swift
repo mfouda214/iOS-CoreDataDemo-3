@@ -16,6 +16,7 @@ class TableViewController: UITableViewController {
     let ages = [25, 26, 20, 30, 27, 28, 23]
     var people = [Person]()
     
+    let departments = ["Finance", "Human Resources", "Engineering", "Marketing"]
     
     // MARK: - Initializing the NSFetchedResultsController
     
@@ -63,7 +64,12 @@ class TableViewController: UITableViewController {
         let firstName = person.firstName
         let lastName = person.lastName
         let age = person.age
-        cell.textLabel?.text = "\(firstName!) \(lastName!) age \(age)"
+        
+        if let department = person.department {
+            cell.textLabel?.text = "\(firstName!) \(lastName!) age \(age) - \(department)"
+        } else {
+            cell.textLabel?.text = "\(firstName!) \(lastName!) age \(age)"
+        }
         
         return cell
     }
@@ -72,6 +78,7 @@ class TableViewController: UITableViewController {
         let randomFirstName = firstNames[Int(arc4random_uniform(UInt32(firstNames.count)))]
         let randomLastName = lastNames[Int(arc4random_uniform(UInt32(lastNames.count)))]
         let randomAge = ages[Int(arc4random_uniform(UInt32(ages.count)))]
+        let randomDepartment = departments[Int(arc4random_uniform(UInt32(departments.count)))]
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -81,6 +88,7 @@ class TableViewController: UITableViewController {
         person.firstName = randomFirstName
         person.lastName = randomLastName
         person.age = Int32(randomAge)
+        person.department = randomDepartment
         appDelegate.saveContext()
     }
 
