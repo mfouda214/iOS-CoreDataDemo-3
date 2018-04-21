@@ -52,6 +52,22 @@ class TableViewController: UITableViewController {
         return sectionInfo.numberOfObjects
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let fetchedResultsController = fetchedResultsController else {
+            fatalError("Failed to load fetched results controller")
+        }
+        
+        let person = fetchedResultsController.object(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        let firstName = person.firstName
+        let lastName = person.lastName
+        let age = person.age
+        cell.textLabel?.text = "\(firstName!) \(lastName!) age \(age)"
+        
+        return cell
+    }
+    
     @IBAction func addButtonWasTapped(_ sender: UIBarButtonItem) {
         let randomFirstName = firstNames[Int(arc4random_uniform(UInt32(firstNames.count)))]
         let randomLastName = lastNames[Int(arc4random_uniform(UInt32(lastNames.count)))]
