@@ -31,6 +31,25 @@ class TableViewController: UITableViewController {
         
         let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)]
+        
+        // MARK: - NSFetchedResultsController
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: "PersonsCache")
+        fetchedResultsController?.delegate = self
+        
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            fatalError("Unable to fetch: \(error)")
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sectionInfo = fetchedResultsController?.sections?[section] else {
+            fatalError("Failed to load fetched results controller")
+        }
+        
+        return sectionInfo.numberOfObjects
     }
     
     @IBAction func addButtonWasTapped(_ sender: UIBarButtonItem) {
