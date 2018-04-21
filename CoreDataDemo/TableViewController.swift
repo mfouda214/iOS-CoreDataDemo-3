@@ -14,6 +14,8 @@ class TableViewController: UITableViewController {
     let lastNames = ["White", "Black", "Fox", "Jones", "King", "McQueen", "Yeager"]
     let ages = [25, 26, 20, 30, 27, 28, 23]
     var people = [Person]()
+    
+    var fetchedResultsController: NSFetchedResultsController<Person>?
 
     @IBAction func addButtonWasTapped(_ sender: UIBarButtonItem) {
         let randomFirstName = firstNames[Int(arc4random_uniform(UInt32(firstNames.count)))]
