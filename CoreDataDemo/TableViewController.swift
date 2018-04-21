@@ -18,8 +18,21 @@ class TableViewController: UITableViewController {
     
     
     // MARK: - Initializing the NSFetchedResultsController
+    
     var fetchedResultsController: NSFetchedResultsController<Person>?
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // MARK: - NSFetchRequest fetches all Persons and sorts them in ascending order according to their first name
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)]
+    }
+    
     @IBAction func addButtonWasTapped(_ sender: UIBarButtonItem) {
         let randomFirstName = firstNames[Int(arc4random_uniform(UInt32(firstNames.count)))]
         let randomLastName = lastNames[Int(arc4random_uniform(UInt32(lastNames.count)))]
