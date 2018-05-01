@@ -93,6 +93,7 @@ class TableViewController: UITableViewController {
         person.department = randomDepartment
         appDelegate.saveContext()
     }
+    
 
 }
 
@@ -137,6 +138,36 @@ extension TableViewController: NSFetchedResultsControllerDelegate {
         tableView.endUpdates()
     }
     
-    
+    // MARK: - Delete from saved CoreData
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let personEntity = "Person" //Entity Name
+        
+        let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        let person = fetchedResultsController?.object(at: indexPath)
+        
+        if editingStyle == .delete {
+            managedContext.delete(person!)
+            
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Error While Deleting Note: \(error.userInfo)")
+            }
+            
+        }
+        
+        //Code to Fetch New Data From The DB and Reload Table.
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: personEntity)
+
+        do {
+            people = try managedContext.fetch(fetchRequest) as! [Person]
+        } catch let error as NSError {
+            print("Error While Fetching Data From DB: \(error.userInfo)")
+        }
+        tableView.reloadData()
+    }
+        // end of core data
     
 }
