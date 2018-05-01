@@ -136,7 +136,7 @@ extension TableViewController: NSFetchedResultsControllerDelegate {
         tableView.endUpdates()
     }
     
-    //Delete core data
+    // MARK: - Delete from saved CoreData
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         let personEntity = "Person" //Entity Name
